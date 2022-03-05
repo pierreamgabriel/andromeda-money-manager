@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { ScrollView, StatusBar, StyleSheet, SafeAreaView, View } from 'react-native';
 import { Header as HeaderRNE, Tab, TabView, Button } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Numbers, Charts } from '../Charts';
+import { Numbers, Charts } from '../components/Charts';
 import Realm from 'realm';
 
 function Home ({ navigation }) {
