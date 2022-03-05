@@ -1,6 +1,6 @@
 import React from 'react';
 import Realm from 'realm';
-import { View, Text, Dimensions} from 'react-native';
+import { ScrollView, Text, Dimensions} from 'react-native';
 import { BarChart, PieChart} from 'react-native-chart-kit';
 
 export function Charts(props) {
@@ -25,7 +25,7 @@ const data = [
 const totalIncome = props.taxable + props.nontaxable;	
 		
 		return(
-		<View>
+		<ScrollView>
   <Text></Text>
   <PieChart
     data={data}
@@ -72,7 +72,7 @@ const totalIncome = props.taxable + props.nontaxable;
 		    right:0 		 
           }}
       />
-</View>
+</ScrollView>
 		);
 	
 }
