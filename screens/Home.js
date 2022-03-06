@@ -15,25 +15,34 @@ const [index, setIndex] = React.useState(0);
 const taxable = {
 	name: 'taxable',
 	properties: {
+		id: 'int',
 		description: 'string',
-		amount: 'int'
-	}
+		amount: 'int',
+		date: 'string'
+	},
+	primaryKey: "id"
 }
 
 const nontaxable = {
 	name: 'nontaxable',
 	properties: {
+		id: 'int',
 		description: 'string',
-		amount: 'int'
-	}
+		amount: 'int',
+		date: 'string'
+	},
+	primaryKey: "id"
 }
 
 const expenses = {
 	name: 'expenses',
 	properties: {
+		id: 'int',
 		description: 'string',
-		amount: 'int'
-	}
+		amount: 'int',
+		date: 'string'
+	},
+	primaryKey: "id"
 }
 
 useEffect(() => {	
@@ -68,7 +77,7 @@ Realm.open({
         variant="primary"
       >
         <Tab.Item containerStyle={{backgroundColor: '#699847'}}
-          title="Recent"
+          title="Report"
           titleStyle={{ fontSize: 12 }}
           icon={{ name: 'dollar-sign', type: 'font-awesome-5', color: 'white' }}
         />
