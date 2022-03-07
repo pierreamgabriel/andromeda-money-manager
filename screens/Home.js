@@ -22,6 +22,7 @@ Realm.open({
   setNon(realm.objects("nontaxable").sum("amount")); 
   setEx(realm.objects("expenses").sum("amount"));	  	  
 });
+setUpdate(0);	
 }, [taxableIncome, nontaxableIncome, expenses_, update]);
 	
 	return(
