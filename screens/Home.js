@@ -4,67 +4,32 @@ import { Header as HeaderRNE, Tab, TabView, Button } from 'react-native-elements
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Numbers, Charts } from '../components/Charts';
 import Realm from 'realm';
+import {taxable, nontaxable, expenses} from '../Schemas';
 
-function Home ({ navigation }) {
+function Home ({ navigation, route }) {
 	
 const [taxableIncome, setTax] = React.useState(null);
 const [nontaxableIncome, setNon] = React.useState(null);
 const [expenses_, setEx] = React.useState(null);
 const [index, setIndex] = React.useState(0);	
-	
-const taxable = {
-	name: 'taxable',
-	properties: {
-		id: 'int',
-		description: 'string',
-		amount: 'int',
-		date: 'string'
-	},
-	primaryKey: "id"
-}
+const [update, setUpdate] = React.useState(0);
 
-const nontaxable = {
-	name: 'nontaxable',
-	properties: {
-		id: 'int',
-		description: 'string',
-		amount: 'int',
-		date: 'string'
-	},
-	primaryKey: "id"
-}
-
-const expenses = {
-	name: 'expenses',
-	properties: {
-		id: 'int',
-		description: 'string',
-		amount: 'int',
-		date: 'string'
-	},
-	primaryKey: "id"
-}
-
-useEffect(() => {	
+useEffect(() => {
 Realm.open({
     schema: [taxable, nontaxable, expenses]
   }).then(realm => {
-  realm.write(() => {
-  realm.create("taxable", { description: "Max", amount: 5 });
   setTax(realm.objects("taxable").sum("amount"));	
   setNon(realm.objects("nontaxable").sum("amount")); 
-  setEx(realm.objects("expenses").sum("amount"));	  
-  realm.close();	  
-})
+  setEx(realm.objects("expenses").sum("amount"));	  	  
 });
-}, [taxableIncome, nontaxableIncome, expenses_]);
+}, [taxableIncome, nontaxableIncome, expenses_, update]);
 	
 	return(
     <>
 	<SafeAreaView> 
 	<HeaderRNE containerStyle={styles.header}
 	statusBarProps={{backgroundColor: '#80bb55'}}	
-	leftComponent={{text: 'Income Tracker', style: styles.left}} >
+	leftComponent={{text: 'Andromeda Money', style: styles.left}} >
 	</HeaderRNE>	
 	</SafeAreaView>
 	 <Tab
@@ -101,7 +66,9 @@ Realm.open({
           <View>
 			 <Button
                 onPress={() =>
-                  navigation.navigate('Addincome')
+                  navigation.navigate('Addincome', {onReturn: (arg) => {
+      setUpdate(arg)
+    }})
        			}
                 title="Add new"
                 buttonStyle={{
@@ -121,7 +88,6 @@ Realm.open({
 			</View>
         </TabView.Item>
         <TabView.Item style={{ backgroundColor: '#80bb55', width: '100%' }}>
-          
         </TabView.Item>
       </TabView>
 	</>	
@@ -135,9 +101,9 @@ const styles = StyleSheet.create({
   },
   left: {
     color: 'white',
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
-    width: 160
+    width: 185
   },	
 });
 
