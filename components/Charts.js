@@ -69,7 +69,26 @@ const totalIncome = props.taxable + props.nontaxable;
     backgroundColor={"#458336"}
     paddingLeft={"20"}
   />
- <Text></Text>	
+ <View style={{
+            paddingHorizontal: 10,
+			marginBottom: 10,
+			marginTop: 15,  
+            flexDirection: "row",
+            alignItems: "center"
+        }}>
+	<Icon
+	  solid	
+      name='balance-scale'
+	  type='font-awesome-5'
+	  color='#ffffff'
+	/>		
+ <Text style={{
+			 fontSize: 15,
+			 color: 'white',
+			 fontWeight: 'bold', 
+			 marginLeft: 8 
+			 }}>Income vs Expenses</Text>	
+</View>
   <BarChart
         data={{
           labels: ['Income', 'Expenses'],
@@ -77,7 +96,8 @@ const totalIncome = props.taxable + props.nontaxable;
         }}
         width={Dimensions.get('window').width - 16}
         height={230}
-        yAxisLabel={'$ - '}
+        showValuesOnTopOfBars={true}
+        withHorizontalLabels={false}
         chartConfig={{
           backgroundColor: '#1cc910',
           backgroundGradientFrom: '#458336',
