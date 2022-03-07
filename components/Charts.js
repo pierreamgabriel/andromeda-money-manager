@@ -1,22 +1,23 @@
 import React from 'react';
 import Realm from 'realm';
-import { ScrollView, Text, Dimensions} from 'react-native';
+import { View, ScrollView, Text, Dimensions} from 'react-native';
 import { BarChart, PieChart} from 'react-native-chart-kit';
+import { Icon } from 'react-native-elements';
 
 export function Charts(props) {
 	
 const data = [
 	{
-    name: "Taxable",
+    name: "",
     amount: props.taxable,
-	color: "#ffffff",
+	color: "#fc9b45",
     legendFontColor: "#ffffff",
     legendFontSize: 15	
     },
 	{
-	name: "Nontaxable",
+	name: "",
     amount: props.nontaxable,
-	color: "#8dc187",
+	color: "#96d1e6",
     legendFontColor: "#ffffff",
     legendFontSize: 15	
 	}
@@ -26,7 +27,28 @@ const totalIncome = props.taxable + props.nontaxable;
 		
 		return(
 		<ScrollView>
-  <Text></Text>
+  <View style={{
+            paddingVertical: 15,
+            paddingHorizontal: 10,
+            flexDirection: "row",
+            alignItems: "center"
+        }}>
+	<Icon
+	  solid	
+      name='circle'
+	  type='font-awesome-5'
+	  color='#fc9b45'
+	/>
+	<Text style={{marginLeft: 5, marginRight: 5, color: '#ffffff'}}>Taxable</Text>		
+    <Icon
+	  solid	
+      name='circle'
+	  type='font-awesome-5'
+	  color='#96d1e6'
+			
+	/>
+	<Text style={{marginLeft: 5, color: '#ffffff'}}>Nontaxable</Text>			
+  </View>
   <PieChart
     data={data}
     accessor={"amount"}			
@@ -45,7 +67,7 @@ const totalIncome = props.taxable + props.nontaxable;
 		   
       }}
     backgroundColor={"#458336"}
-    paddingLeft={"5"}
+    paddingLeft={"20"}
   />
  <Text></Text>	
   <BarChart
