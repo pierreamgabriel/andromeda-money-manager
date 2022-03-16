@@ -1,4 +1,4 @@
-# in development
+# under development
 
 <p align="center">
 <img src="screenshots/homescreen.jpg" height="400" title="home page">
