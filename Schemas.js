@@ -4,7 +4,8 @@ const taxable = {
 		id: 'int',
 		description: 'string',
 		amount: 'int',
-		date: 'string'
+		date: 'string', 
+		tax: 'bool'
 	},
 	primaryKey: "id"
 };
@@ -15,7 +16,8 @@ const nontaxable = {
 		id: 'int',
 		description: 'string',
 		amount: 'int',
-		date: 'string'
+		date: 'string',
+		tax: 'bool'
 	},
 	primaryKey: "id"
 };
@@ -37,7 +39,8 @@ const taxRnrw = [
 				 id: "int", 
 				 description: "string", 
 				 amount: "int", 
-				 date: "string"
+				 date: "string",
+				 tax: 'bool'
 				}
 ];
 
@@ -47,7 +50,8 @@ const nonTaxRnrw = [
 				 id: "int", 
 				 description: "string", 
 				 amount: "int", 
-				 date: "string"
+				 date: "string",
+				 tax: 'bool'
 				}
 ];
 
