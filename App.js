@@ -2,19 +2,21 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home.js';
-import Addincome from './screens/Addincome.js'
+import AddIncome from './screens/AddIncome.js';
+import AddExpense from './screens/AddExpense';
 
 const Stack = createNativeStackNavigator();
 
-function App() {		
-	return(
-	<NavigationContainer>
+function App() {
+  return (
+    <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={{headerShown:false}} />
-		<Stack.Screen name="Addincome" component={Addincome} options={{headerShown:false}} />
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        <Stack.Screen name="AddIncome" component={AddIncome} options={{ headerShown: false }} />
+        <Stack.Screen name="AddExpense" component={AddExpense} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
-	);
+  );
 }
 
 export default App;
