@@ -1,9 +1,34 @@
-import React, { useContext } from 'react';
-import { Button } from 'react-native-elements';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext} from 'react';
+import {Button} from 'react-native-elements';
 import Realm from 'realm';
-import { UpdateHome } from '../screens/Home'
+import {UpdateHome} from '../screens/Home';
+import {StackParams} from '../App';
 
-function MainButton(props) {
+interface MainButtonProps {
+  func: () => void;
+  text: string;
+}
+
+interface OkButtonProps {
+  route: {
+    params: {
+      onReturn: (arg: number) => void;
+    };
+  };
+  nav: {
+    goBack: () => void;
+  };
+}
+
+interface AddItemButtonProps {
+  screen: StackParams | string;
+  nav: {
+    navigate: (prop: StackParams | string, {}) => void;
+  };
+}
+
+function MainButton(props: MainButtonProps) {
   return (
     <Button
       onPress={props.func}
@@ -19,17 +44,17 @@ function MainButton(props) {
         marginLeft: 'auto',
         marginRight: 'auto',
         left: 0,
-        right: 0
+        right: 0,
       }}
     />
   );
 }
 
-function OkButton(props) {
+function OkButton(props: OkButtonProps) {
   return (
     <Button
       onPress={async () => {
-        const realm = await Realm.open();
+        const realm = await Realm.open({});
         await realm.close();
         props.route.params.onReturn(1);
         props.nav.goBack();
@@ -45,25 +70,24 @@ function OkButton(props) {
         marginLeft: 'auto',
         marginRight: 'auto',
         left: 0,
-        right: 0
+        right: 0,
       }}
     />
   );
 }
 
-function AddItemButton(props) {
+function AddItemButton(props: AddItemButtonProps) {
   const setUpdate = useContext(UpdateHome);
   return (
     <Button
-      onPress={() =>{
+      onPress={() => {
         props.nav.navigate(props.screen, {
-          onReturn: (arg) => {
-            setUpdate(arg)
-          }
+          onReturn: (arg: number) => {
+            setUpdate(arg);
+          },
         });
         setUpdate(0);
-      }
-      }
+      }}
       title="Add New"
       buttonStyle={{
         backgroundColor: 'rgba(78, 116, 289, 1)',
@@ -76,11 +100,10 @@ function AddItemButton(props) {
         marginLeft: 'auto',
         marginRight: 'auto',
         left: 0,
-        right: 0
+        right: 0,
       }}
     />
   );
-
 }
 
-export { MainButton, OkButton, AddItemButton };
+export {MainButton, OkButton, AddItemButton};
