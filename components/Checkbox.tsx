@@ -16,9 +16,8 @@ function Checkbox(props: CheckBoxProps) {
       title={props.title}
       checkedIcon="dot-circle-o"
       uncheckedIcon="circle-o"
-      // eslint-disable-next-line react-native/no-inline-styles
-      containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
-      textStyle={{color: props.color}}
+      containerStyle={styles.checkboxContainer}
+      textStyle={styles.checkboxText(props.color)}
       uncheckedColor={props.uncheckedColor}
       checked={props.checked}
       onPress={props.func}
@@ -26,4 +25,13 @@ function Checkbox(props: CheckBoxProps) {
   );
 }
 
+const styles = {
+  checkboxContainer: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+  },
+  checkboxText: (arg: string) => ({
+    color: arg,
+  }),
+};
 export default Checkbox;

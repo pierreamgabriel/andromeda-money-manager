@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, createContext, useState} from 'react';
 import {StyleSheet, SafeAreaView, View, ScrollView} from 'react-native';
 import {Header as HeaderRNE, Tab, ListItem, Icon} from 'react-native-elements';
@@ -11,18 +10,26 @@ import TabView from '../components/tab/TabView';
 
 export const UpdateHome = createContext((_arg: any) => {});
 
+type List = {
+  id: string;
+  description: string;
+  amount: number;
+  date: string;
+  tax: boolean;
+}[];
+
 function Home({navigation}) {
-  const [taxableIncome, setTax] = useState(null);
-  const [nontaxableIncome, setNon] = useState(null);
-  const [expenses_, setEx] = useState(null);
+  const [taxableIncome, setTax] = useState(0);
+  const [nontaxableIncome, setNon] = useState(0);
+  const [expenses_, setEx] = useState(0);
   const [index, setIndex] = useState(0);
   const [update, setUpdate] = useState();
   const [checkBoxIncome, setCheckBoxIncome] = useState({
     tax: true,
     nonTax: false,
-    all: null,
+    all: false,
   });
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<List>([]);
 
   const format = value => {
     if (value == null) {
@@ -117,21 +124,18 @@ function Home({navigation}) {
       <Tab
         value={index}
         onChange={e => setIndex(e)}
-        indicatorStyle={{
-          backgroundColor: 'white',
-          height: 3,
-        }}
+        indicatorStyle={styles.indicator}
         variant="primary">
         <Tab.Item
-          containerStyle={{backgroundColor: '#699847'}}
+          containerStyle={styles.container}
           title="Report"
-          titleStyle={{fontSize: 12}}
+          titleStyle={styles.tabItemTitle}
           icon={{name: 'dollar-sign', type: 'font-awesome-5', color: 'white'}}
         />
         <Tab.Item
-          containerStyle={{backgroundColor: '#699847'}}
+          containerStyle={styles.container}
           title="Income"
-          titleStyle={{fontSize: 12}}
+          titleStyle={styles.tabItemTitle}
           icon={{
             name: 'hand-holding-usd',
             type: 'font-awesome-5',
@@ -139,9 +143,9 @@ function Home({navigation}) {
           }}
         />
         <Tab.Item
-          containerStyle={{backgroundColor: '#699847'}}
+          containerStyle={styles.container}
           title="Expenses"
-          titleStyle={{fontSize: 12}}
+          titleStyle={styles.tabItemTitle}
           icon={{
             name: 'file-invoice-dollar',
             type: 'font-awesome-5',
@@ -151,24 +155,19 @@ function Home({navigation}) {
       </Tab>
 
       <TabView value={index} onChange={setIndex} animationType="spring">
-        <TabView.Item style={{backgroundColor: '#80bb55', width: '100%'}}>
+        <TabView.Item style={styles.tabItem}>
           <Charts
             taxable={taxableIncome}
             nontaxable={nontaxableIncome}
             expenses={expenses_}
           />
         </TabView.Item>
-        <TabView.Item style={{backgroundColor: '#80bb55', width: '100%'}}>
+        <TabView.Item style={styles.tabItem}>
           <ScrollView>
             <UpdateHome.Provider value={setUpdate}>
               <AddItemButton nav={navigation} screen="AddIncome" />
             </UpdateHome.Provider>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+            <View style={styles.itemTypeRow}>
               <Checkbox
                 title="Taxable"
                 uncheckedColor="white"
@@ -191,14 +190,9 @@ function Home({navigation}) {
             {list.map((item, i) => {
               return (
                 <ListItem
-                  key={i}
+                  key={item.id}
                   bottomDivider
-                  style={{
-                    marginBottom: 3,
-                    width: '95%',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                  }}
+                  style={styles.item}
                   hasTVPreferredFocus={undefined}
                   tvParallaxProperties={undefined}>
                   <ListItem.Content>
@@ -216,7 +210,7 @@ function Home({navigation}) {
             })}
           </ScrollView>
         </TabView.Item>
-        <TabView.Item style={{backgroundColor: '#80bb55', width: '100%'}}>
+        <TabView.Item style={styles.tabItem}>
           <View>
             <AddItemButton nav={navigation} screen="AddExpense" />
           </View>
@@ -236,6 +230,31 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     width: 185,
+  },
+  indicator: {
+    backgroundColor: 'white',
+    height: 3,
+  },
+  container: {
+    backgroundColor: '#699847',
+  },
+  tabItem: {
+    backgroundColor: '#80bb55',
+    width: '100%',
+  },
+  tabItemTitle: {
+    fontSize: 12,
+  },
+  itemTypeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  item: {
+    marginBottom: 3,
+    width: '95%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 });
 

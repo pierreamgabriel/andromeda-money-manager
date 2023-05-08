@@ -1,8 +1,8 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, ScrollView, Text, Dimensions} from 'react-native';
 import {BarChart, PieChart} from 'react-native-chart-kit';
 import {Icon} from 'react-native-elements';
+import {StyleSheet} from 'react-native';
 
 interface ChartProps {
   taxable: number;
@@ -32,13 +32,7 @@ export function Charts(props: ChartProps) {
 
   return (
     <ScrollView>
-      <View
-        style={{
-          paddingVertical: 15,
-          paddingHorizontal: 10,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
+      <View style={styles.taxRow}>
         <Icon
           solid
           name="circle"
@@ -46,9 +40,7 @@ export function Charts(props: ChartProps) {
           color="#fc9b45"
           tvParallaxProperties={undefined}
         />
-        <Text style={{marginLeft: 5, marginRight: 5, color: '#ffffff'}}>
-          Taxable
-        </Text>
+        <Text style={styles.taxable}>Taxable</Text>
         <Icon
           solid
           name="circle"
@@ -56,7 +48,7 @@ export function Charts(props: ChartProps) {
           color="#96d1e6"
           tvParallaxProperties={undefined}
         />
-        <Text style={{marginLeft: 5, color: '#ffffff'}}>Nontaxable</Text>
+        <Text style={styles.nonTaxable}>Nontaxable</Text>
       </View>
       <PieChart
         data={data}
@@ -67,24 +59,11 @@ export function Charts(props: ChartProps) {
           decimalPlaces: 2,
           color: (_opacity = 1) => 'rgba(255, 255, 255)',
         }}
-        style={{
-          borderRadius: 16,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          left: 0,
-          right: 0,
-        }}
+        style={styles.pieChart}
         backgroundColor={'#458336'}
         paddingLeft={'20'}
       />
-      <View
-        style={{
-          paddingHorizontal: 10,
-          marginBottom: 10,
-          marginTop: 15,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
+      <View style={styles.barChartTitleRow}>
         <Icon
           solid
           name="balance-scale"
@@ -92,15 +71,7 @@ export function Charts(props: ChartProps) {
           color="#ffffff"
           tvParallaxProperties={undefined}
         />
-        <Text
-          style={{
-            fontSize: 15,
-            color: 'white',
-            fontWeight: 'bold',
-            marginLeft: 8,
-          }}>
-          Income vs Expenses
-        </Text>
+        <Text style={styles.barChartTitle}>Income vs Expenses</Text>
       </View>
       <BarChart
         data={{
@@ -118,17 +89,56 @@ export function Charts(props: ChartProps) {
           decimalPlaces: 2,
           color: (_opacity = 255) => '#ECEFF1',
         }}
-        style={{
-          borderRadius: 12,
-          padding: 10,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          left: 0,
-          right: 0,
-        }}
+        style={styles.barChart}
         yAxisLabel=""
         yAxisSuffix=""
       />
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  taxRow: {
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  taxable: {
+    marginLeft: 5,
+    marginRight: 5,
+    color: '#ffffff',
+  },
+  nonTaxable: {
+    marginLeft: 5,
+    color: '#ffffff',
+  },
+  pieChart: {
+    borderRadius: 16,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0,
+  },
+  barChartTitleRow: {
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    marginTop: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  barChartTitle: {
+    fontSize: 15,
+    color: 'white',
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
+  barChart: {
+    borderRadius: 12,
+    padding: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0,
+  },
+});
