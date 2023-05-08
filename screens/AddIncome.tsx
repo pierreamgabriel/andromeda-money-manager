@@ -1,6 +1,5 @@
-/* eslint-disable no-alert */
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, SafeAreaView, View, Pressable} from 'react-native';
+import {StyleSheet, SafeAreaView, View, Pressable, Alert} from 'react-native';
 import {
   Header as HeaderRNE,
   Input,
@@ -24,13 +23,13 @@ function AddExpense({navigation, route}) {
     date: [],
   });
   const [paymentDate, setPaymentDate] = useState('Select a payment date');
+  const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
+
   const amount = (arg1, arg2) => {
-    if (isNaN(arg1)) {
-      arg1 = '';
-    }
     const fixAmount = arg1.toString().replace(/[^0-9]/g, '');
-    // eslint-disable-next-line radix
-    const number = parseInt(fixAmount);
+
+    const number = parseInt(fixAmount, 10);
     if (arg2 === 'blur') {
       if (isNaN(number)) {
         setData({...data, amount: 0, amount_: ''});
@@ -41,8 +40,6 @@ function AddExpense({navigation, route}) {
       setData({...data, amount: number, amount_: fixAmount});
     }
   };
-  const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
-  const [visible, setVisible] = React.useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -65,7 +62,7 @@ function AddExpense({navigation, route}) {
       isNaN(data.amount) ||
       typeof data.date !== 'string'
     ) {
-      alert('All fields are required.');
+      Alert.alert('', 'All fields are required.');
     } else if (data.tax === true) {
       let id;
       await rnrw.nextID(taxRnrw).then(value => {
@@ -83,7 +80,7 @@ function AddExpense({navigation, route}) {
           if (value === 'Success') {
             toggleOverlay();
           } else {
-            alert('Something went wrong. Please try again.');
+            Alert.alert('', 'Something went wrong. Please try again.');
           }
         });
     } else if (data.nonTax === true) {
@@ -103,11 +100,11 @@ function AddExpense({navigation, route}) {
           if (value === 'Success') {
             toggleOverlay();
           } else {
-            alert('Something went wrong. Please try again.');
+            Alert.alert('', 'Something went wrong. Please try again.');
           }
         });
     } else {
-      alert('You need to select Taxable or Nontaxable.');
+      Alert.alert('', 'You need to select Taxable or Nontaxable.');
     }
   };
 
@@ -151,14 +148,7 @@ function AddExpense({navigation, route}) {
           onBlur={() => amount(data.amount, 'blur')}
           autoCompleteType={undefined}
         />
-        <View
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '95%',
-          }}>
+        <View style={styles.itemTypeRow}>
           <Checkbox
             title="Taxable"
             checked={data.tax}
@@ -190,8 +180,7 @@ function AddExpense({navigation, route}) {
         />
         <MainButton text="Add Income" func={addData} />
         <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-          {/* eslint-disable-next-line react-native/no-inline-styles */}
-          <Text style={{marginTop: 10}}>Data added successfully.</Text>
+          <Text style={styles.overlayText}>Data added successfully.</Text>
           <OkButton nav={navigation} route={route} />
         </Overlay>
       </View>
@@ -208,6 +197,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     width: 180,
+  },
+  itemTypeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '95%',
+  },
+  overlayText: {
+    marginTop: 10,
   },
 });
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, SafeAreaView, View, Pressable} from 'react-native';
+import {StyleSheet, SafeAreaView, View, Pressable, Alert} from 'react-native';
 import {
   Header as HeaderRNE,
   Input,
@@ -20,13 +20,13 @@ function AddExpense({navigation, route}) {
     date: [],
   });
   const [paymentDate, setPaymentDate] = useState('Select a due date');
+  const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
+
   const amount = (arg1, arg2) => {
-    if (isNaN(arg1)) {
-      arg1 = '';
-    }
     const fixAmount = arg1.toString().replace(/[^0-9]/g, '');
-    // eslint-disable-next-line radix
-    const number = parseInt(fixAmount);
+
+    const number = parseInt(fixAmount, 10);
     if (arg2 === 'blur') {
       if (isNaN(number)) {
         setData({...data, amount: 0, amount_: ''});
@@ -37,8 +37,6 @@ function AddExpense({navigation, route}) {
       setData({...data, amount: number, amount_: fixAmount});
     }
   };
-  const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
-  const [visible, setVisible] = React.useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -56,8 +54,7 @@ function AddExpense({navigation, route}) {
 
   const addData = async () => {
     if (data.desc === '' || data.amount === 0 || isNaN(data.amount)) {
-      // eslint-disable-next-line no-alert
-      alert('Description and amount are required.');
+      Alert.alert('', 'Description and amount are required.');
     } else {
       let id;
       await rnrw.nextID(expensesRnrw).then(value => {
@@ -74,8 +71,7 @@ function AddExpense({navigation, route}) {
           if (value === 'Success') {
             toggleOverlay();
           } else {
-            // eslint-disable-next-line no-alert
-            alert('Something went wrong. Please try again.');
+            Alert.alert('', 'Something went wrong. Please try again.');
           }
         });
     }
@@ -137,8 +133,7 @@ function AddExpense({navigation, route}) {
         />
         <MainButton text="Add Expense" func={addData} />
         <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-          {/* eslint-disable-next-line react-native/no-inline-styles */}
-          <Text style={{marginTop: 10}}>Data added successfully.</Text>
+          <Text style={styles.overlayText}>Data added successfully.</Text>
           <OkButton nav={navigation} route={route} />
         </Overlay>
       </View>
@@ -155,6 +150,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     width: 180,
+  },
+  overlayText: {
+    marginTop: 10,
   },
 });
 
